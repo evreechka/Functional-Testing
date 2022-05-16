@@ -1,0 +1,7 @@
+.idea
+src/test/resources
+build
+target
+lab3.iml
+browsers.json
+.DS_Store
