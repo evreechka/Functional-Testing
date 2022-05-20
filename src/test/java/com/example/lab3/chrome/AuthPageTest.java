@@ -1,6 +1,5 @@
 package com.example.lab3.chrome;
 
-import com.codeborne.selenide.Configuration;
 import com.example.lab3.utils.TestUtils;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.sukgu.Shadow;
@@ -10,11 +9,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-
-import static com.codeborne.selenide.Selenide.sleep;
 
 public class AuthPageTest {
     public static WebDriver chromeDriver;
@@ -23,7 +21,6 @@ public class AuthPageTest {
 
     @BeforeAll
     public static void setUpAll() throws ConfigurationException {
-        Configuration.browserSize = "1500x1000";
         WebDriverManager.chromedriver().setup();
 
         chromeDriver = new ChromeDriver();
@@ -31,6 +28,7 @@ public class AuthPageTest {
         propertiesConfiguration = new PropertiesConfiguration();
 
         propertiesConfiguration.load("test.properties");
+        chromeDriver.manage().window().setSize(new Dimension(1500, 1000));
     }
 
     @BeforeEach
@@ -47,8 +45,6 @@ public class AuthPageTest {
     public void clickSignUpTest() {
         WebElement signUpButton = shadow.findElementByXPath("//a[@href='/account/signup' and text()='Sign up']");
         signUpButton.click();
-
-        sleep(2000);
     }
 
     @Test
@@ -60,16 +56,12 @@ public class AuthPageTest {
         shadow.findElementByXPath("//input[@type='text' and @name='screenname']").sendKeys(TestUtils.generateUsername());
         shadow.findElementByXPath("//input[@type='password' and @name='password']").sendKeys(TestUtils.generatePassword());
         shadow.findElementByXPath("//button[@name='submit-to-signup']").click();
-
-        sleep(2000);
     }
 
     @Test
     public void clickLogInTest() {
         WebElement logInButton = shadow.findElementByXPath("//a[@href='/account/login' and text()='Log in']");
         logInButton.click();
-
-        sleep(2000);
     }
 
     @Test
@@ -83,21 +75,16 @@ public class AuthPageTest {
         shadow.findElementByXPath("//input[@type='email' and @name='username']").sendKeys(EMAIL);
         shadow.findElementByXPath("//input[@type='password' and @name='password']").sendKeys(PASSWORD);
         shadow.findElementByXPath("//input[@type='submit' and @name='submit-to-login']").click();
-
-        sleep(2000);
     }
 
     @Test
     public void logOutTest() {
         logInTest();
-        sleep(1000);
 
         WebElement userIconButton = shadow.findElementByXPath("//button[@class='user-menu ' and @title='Expand user menu']");
         userIconButton.click();
 
         WebElement logOutButton = shadow.findElementByXPath("//a[text()='Log out']");
         logOutButton.click();
-
-        sleep(2000);
     }
 }
