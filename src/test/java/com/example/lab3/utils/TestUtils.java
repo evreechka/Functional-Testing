@@ -1,12 +1,10 @@
 package com.example.lab3.utils;
 
+import com.example.lab3.AuthPage;
 import io.github.sukgu.Shadow;
 import org.apache.commons.configuration.PropertiesConfiguration;
-import org.openqa.selenium.WebElement;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Random;
 
 import static java.lang.Thread.sleep;
 
@@ -41,13 +39,11 @@ public class TestUtils {
         final String EMAIL = propertiesConfiguration.getString("email");
         final String PASSWORD = propertiesConfiguration.getString("password");
 
-        WebElement logInButton = shadow.findElementByXPath("//a[@href='/account/login' and text()='Log in']");
-        logInButton.click();
+        AuthPage.getLogInButton(shadow).click();
+        AuthPage.getEmailInput(shadow).sendKeys(EMAIL);
+        AuthPage.getPasswordInput(shadow).sendKeys(PASSWORD);
+        AuthPage.getLogInSubmitButton(shadow).click();
 
-        shadow.findElementByXPath("//input[@type='email' and @name='username']").sendKeys(EMAIL);
-        shadow.findElementByXPath("//input[@type='password' and @name='password']").sendKeys(PASSWORD);
-        shadow.findElementByXPath("//input[@type='submit' and @name='submit-to-login']").click();
-
-        sleep(1000);
+        sleep(5000);
     }
 }
