@@ -16,20 +16,23 @@ import java.util.List;
 import static com.example.lab3.utils.TestUtils.login;
 
 public class ContentPageTest {
-    private static final List<WebDriver> WEB_DRIVERS = new ArrayList<>();
+    private static ContentPage contentPage;
+    private static MainPage mainPage;
     private static PropertiesConfiguration propertiesConfiguration;
 
     @BeforeAll
     public static void setUpAll() throws ConfigurationException {
+        contentPage = new ContentPage();
+        mainPage = new MainPage();
         propertiesConfiguration = new PropertiesConfiguration();
         propertiesConfiguration.load("test.properties");
     }
 
     private static List<WebDriver> getWebDrivers() {
-        WEB_DRIVERS.clear();
-        WEB_DRIVERS.add(WebDriverFactory.CHROME.getWebDriver());
-        WEB_DRIVERS.add(WebDriverFactory.FIREFOX.getWebDriver());
-        return WEB_DRIVERS;
+        List<WebDriver> webDrivers = new ArrayList<>();
+        webDrivers.add(WebDriverFactory.CHROME.getWebDriver());
+        webDrivers.add(WebDriverFactory.FIREFOX.getWebDriver());
+        return webDrivers;
     }
 
     @ParameterizedTest
@@ -37,12 +40,12 @@ public class ContentPageTest {
     public void shareBookTest(WebDriver webDriver) {
         Shadow shadow = new Shadow(webDriver);
 
-        MainPage.getOpenTextsPageLink(shadow).click();
-        ContentPage.getCollectionTab(shadow).click();
-        ContentPage.getCollectionBookLink(shadow).click();
-        ContentPage.getArchiveBookLink(shadow).click();
-        ContentPage.getBookLink(shadow).click();
-        ContentPage.getShareButton(shadow).click();
+        mainPage.getOpenTextsPageLink(shadow).click();
+        contentPage.getCollectionTab(shadow).click();
+        contentPage.getCollectionBookLink(shadow).click();
+        contentPage.getArchiveBookLink(shadow).click();
+        contentPage.getBookLink(shadow).click();
+        contentPage.getShareButton(shadow).click();
 
         webDriver.quit();
     }
@@ -54,11 +57,11 @@ public class ContentPageTest {
 
         login(propertiesConfiguration, shadow);
 
-        MainPage.getOpenSoftwarePageLink(shadow).click();
-        ContentPage.getCollectionTab(shadow).click();
-        ContentPage.getCollectionSoftwareLink(shadow).click();
-        ContentPage.getSoftwareProductLink(shadow).click();
-        ContentPage.getFavoriteButton(shadow).click();
+        mainPage.getOpenSoftwarePageLink(shadow).click();
+        contentPage.getCollectionTab(shadow).click();
+        contentPage.getCollectionSoftwareLink(shadow).click();
+        contentPage.getSoftwareProductLink(shadow).click();
+        contentPage.getFavoriteButton(shadow).click();
 
         webDriver.quit();
     }
@@ -70,12 +73,12 @@ public class ContentPageTest {
 
         login(propertiesConfiguration, shadow);
 
-        MainPage.getOpenTextsPageLink(shadow).click();
-        ContentPage.getForumTab(shadow).click();
-        ContentPage.getNewPostButton(shadow).click();
-        ContentPage.getPostSubjectInput(shadow).sendKeys(TestUtils.generateString(20));
-        ContentPage.getPostBodyInput(shadow).sendKeys(TestUtils.generateString(500));
-        ContentPage.getPostSubmitButton(shadow).click();
+        mainPage.getOpenTextsPageLink(shadow).click();
+        contentPage.getForumTab(shadow).click();
+        contentPage.getNewPostButton(shadow).click();
+        contentPage.getPostSubjectInput(shadow).sendKeys(TestUtils.generateString(20));
+        contentPage.getPostBodyInput(shadow).sendKeys(TestUtils.generateString(500));
+        contentPage.getPostSubmitButton(shadow).click();
 
         webDriver.quit();
     }

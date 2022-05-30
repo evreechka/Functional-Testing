@@ -17,20 +17,23 @@ import static com.example.lab3.utils.TestUtils.login;
 import static java.lang.Thread.sleep;
 
 public class AuthPageTest {
-    private static final List<WebDriver> WEB_DRIVERS = new ArrayList<>();
+    private static AuthPage authPage;
+    private static MainPage mainPage;
     private static PropertiesConfiguration propertiesConfiguration;
 
     @BeforeAll
     public static void setUpAll() throws ConfigurationException {
+        authPage = new AuthPage();
+        mainPage = new MainPage();
         propertiesConfiguration = new PropertiesConfiguration();
         propertiesConfiguration.load("test.properties");
     }
 
     private static List<WebDriver> getWebDrivers() {
-        WEB_DRIVERS.clear();
-        WEB_DRIVERS.add(WebDriverFactory.CHROME.getWebDriver());
-        WEB_DRIVERS.add(WebDriverFactory.FIREFOX.getWebDriver());
-        return WEB_DRIVERS;
+        List<WebDriver> webDrivers = new ArrayList<>();
+        webDrivers.add(WebDriverFactory.CHROME.getWebDriver());
+        webDrivers.add(WebDriverFactory.FIREFOX.getWebDriver());
+        return webDrivers;
     }
 
     @ParameterizedTest
@@ -38,11 +41,11 @@ public class AuthPageTest {
     public void signUpTest(WebDriver webDriver) {
         Shadow shadow = new Shadow(webDriver);
 
-        AuthPage.getSignUpButton(shadow).click();
-        AuthPage.getEmailInput(shadow).sendKeys(TestUtils.generateEmail());
-        AuthPage.getScreenNameInput(shadow).sendKeys(TestUtils.generateUsername());
-        AuthPage.getPasswordInput(shadow).sendKeys(TestUtils.generatePassword());
-        AuthPage.getSignUpSubmitButton(shadow).click();
+        authPage.getSignUpButton(shadow).click();
+        authPage.getEmailInput(shadow).sendKeys(TestUtils.generateEmail());
+        authPage.getScreenNameInput(shadow).sendKeys(TestUtils.generateUsername());
+        authPage.getPasswordInput(shadow).sendKeys(TestUtils.generatePassword());
+        authPage.getSignUpSubmitButton(shadow).click();
 
         webDriver.quit();
     }
@@ -54,10 +57,10 @@ public class AuthPageTest {
         final String PASSWORD = propertiesConfiguration.getString("password");
         Shadow shadow = new Shadow(webDriver);
 
-        AuthPage.getLogInButton(shadow).click();
-        AuthPage.getEmailInput(shadow).sendKeys(EMAIL);
-        AuthPage.getPasswordInput(shadow).sendKeys(PASSWORD);
-        AuthPage.getLogInSubmitButton(shadow).click();
+        authPage.getLogInButton(shadow).click();
+        authPage.getEmailInput(shadow).sendKeys(EMAIL);
+        authPage.getPasswordInput(shadow).sendKeys(PASSWORD);
+        authPage.getLogInSubmitButton(shadow).click();
 
         webDriver.quit();
     }
@@ -70,8 +73,8 @@ public class AuthPageTest {
         login(propertiesConfiguration, shadow);
         sleep(5000);
 
-        MainPage.getUserIconButton(shadow).click();
-        AuthPage.getLogOutButton(shadow).click();
+        mainPage.getUserIconButton(shadow).click();
+        authPage.getLogOutButton(shadow).click();
 
         webDriver.quit();
     }

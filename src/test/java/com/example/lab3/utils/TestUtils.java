@@ -38,11 +38,12 @@ public class TestUtils {
     public static void login(PropertiesConfiguration propertiesConfiguration, Shadow shadow) throws InterruptedException {
         final String EMAIL = propertiesConfiguration.getString("email");
         final String PASSWORD = propertiesConfiguration.getString("password");
+        final AuthPage authPage = new AuthPage();
 
-        AuthPage.getLogInButton(shadow).click();
-        AuthPage.getEmailInput(shadow).sendKeys(EMAIL);
-        AuthPage.getPasswordInput(shadow).sendKeys(PASSWORD);
-        AuthPage.getLogInSubmitButton(shadow).click();
+        authPage.getLogInButton(shadow).click();
+        authPage.getEmailInput(shadow).sendKeys(EMAIL);
+        authPage.getPasswordInput(shadow).sendKeys(PASSWORD);
+        authPage.getLogInSubmitButton(shadow).click();
 
         sleep(5000);
     }

@@ -15,20 +15,21 @@ import java.util.List;
 import static com.example.lab3.utils.TestUtils.login;
 
 public class MainPageTest {
-    private static final List<WebDriver> WEB_DRIVERS = new ArrayList<>();
+    private static MainPage mainPage;
     private static PropertiesConfiguration propertiesConfiguration;
 
     @BeforeAll
     public static void setUpAll() throws ConfigurationException {
+        mainPage = new MainPage();
         propertiesConfiguration = new PropertiesConfiguration();
         propertiesConfiguration.load("test.properties");
     }
 
     private static List<WebDriver> getWebDrivers() {
-        WEB_DRIVERS.clear();
-        WEB_DRIVERS.add(WebDriverFactory.CHROME.getWebDriver());
-        WEB_DRIVERS.add(WebDriverFactory.FIREFOX.getWebDriver());
-        return WEB_DRIVERS;
+        List<WebDriver> webDrivers = new ArrayList<>();
+        webDrivers.add(WebDriverFactory.CHROME.getWebDriver());
+        webDrivers.add(WebDriverFactory.FIREFOX.getWebDriver());
+        return webDrivers;
     }
 
     @ParameterizedTest
@@ -36,7 +37,7 @@ public class MainPageTest {
     public void openBlogTest(WebDriver webDriver) {
         Shadow shadow = new Shadow(webDriver);
 
-        MainPage.getOpenBlogPageLink(shadow).click();
+        mainPage.getOpenBlogPageLink(shadow).click();
 
         webDriver.quit();
     }
@@ -48,11 +49,11 @@ public class MainPageTest {
         Shadow shadow = new Shadow(webDriver);
 
         login(propertiesConfiguration, shadow);
-        MainPage.getUserIconButton(shadow).click();
-        MainPage.getWebArchiveTab(shadow).click();
-        MainPage.getSaveAndShareButton(shadow).click();
-        MainPage.getSavedURLInput(shadow).sendKeys(LINK);
-        MainPage.getSaveURLSubmitButton(shadow).click();
+        mainPage.getUserIconButton(shadow).click();
+        mainPage.getWebArchiveTab(shadow).click();
+        mainPage.getSaveAndShareButton(shadow).click();
+        mainPage.getSavedURLInput(shadow).sendKeys(LINK);
+        mainPage.getSaveURLSubmitButton(shadow).click();
 
         webDriver.quit();
     }
