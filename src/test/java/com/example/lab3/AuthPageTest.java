@@ -31,8 +31,12 @@ public class AuthPageTest {
 
     private static List<WebDriver> getWebDrivers() {
         List<WebDriver> webDrivers = new ArrayList<>();
-        webDrivers.add(WebDriverFactory.CHROME.getWebDriver());
-        webDrivers.add(WebDriverFactory.FIREFOX.getWebDriver());
+        if (propertiesConfiguration.getBoolean("chromeEnable")) {
+            webDrivers.add(WebDriverFactory.CHROME.getWebDriver());
+        }
+        if (propertiesConfiguration.getBoolean("firefoxEnable")) {
+            webDrivers.add(WebDriverFactory.FIREFOX.getWebDriver());
+        }
         return webDrivers;
     }
 

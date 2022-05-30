@@ -2,6 +2,8 @@ package com.example.lab3;
 
 import com.example.lab3.utils.WebDriverFactory;
 import io.github.sukgu.Shadow;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -13,17 +15,24 @@ import java.util.List;
 public class HelpPageTest {
     private static HelpPage helpPage;
     private static MainPage mainPage;
+    private static PropertiesConfiguration propertiesConfiguration;
 
     @BeforeAll
-    public static void setUpAll() {
+    public static void setUpAll() throws ConfigurationException {
         helpPage = new HelpPage();
         mainPage = new MainPage();
+        propertiesConfiguration = new PropertiesConfiguration();
+        propertiesConfiguration.load("test.properties");
     }
 
     private static List<WebDriver> getWebDrivers() {
         List<WebDriver> webDrivers = new ArrayList<>();
-        webDrivers.add(WebDriverFactory.CHROME.getWebDriver());
-        webDrivers.add(WebDriverFactory.FIREFOX.getWebDriver());
+        if (propertiesConfiguration.getBoolean("chromeEnable")) {
+            webDrivers.add(WebDriverFactory.CHROME.getWebDriver());
+        }
+        if (propertiesConfiguration.getBoolean("firefoxEnable")) {
+            webDrivers.add(WebDriverFactory.FIREFOX.getWebDriver());
+        }
         return webDrivers;
     }
 
